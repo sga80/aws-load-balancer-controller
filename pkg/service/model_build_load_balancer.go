@@ -170,6 +170,10 @@ func (t *defaultModelBuildTask) buildLoadBalancerSecurityGroups(ctx context.Cont
 }
 
 func (t *defaultModelBuildTask) buildManageSecurityGroupRulesFlag(ctx context.Context) (bool, error) {
+	if t.enableManagedBackendSGRules {
+		return true, nil
+	}
+
 	var rawEnabled bool
 	exists, err := t.annotationParser.ParseBoolAnnotation(annotations.SvcLBSuffixManageSGRules, &rawEnabled, t.service.Annotations)
 	if err != nil {
